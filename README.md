@@ -1,2 +1,2 @@
 # UdonTotp
-Time Based One Time Password (TOTP) Compatible with VRChat UdonSharp.
+Time-based One-time Password algorithm (TOTP) Compatible with VRChat UdonSharp.
