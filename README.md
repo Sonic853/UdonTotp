@@ -23,7 +23,7 @@ Demo：[https://vrchat.com/home/world/wrld_e47376a2-3fba-484d-b08f-3719aa18b18c]
 
 ## 许可证
 
-代码在 [MIT 许可](./LICENSE) 下分发，只要您标记了该插件的著名，您可以在您的专有项目中随意使用它。
+代码在 [MIT 许可](./LICENSE) 下分发，只要您注明了该插件的著名，您就可以在您的专有项目中随意使用它。
 
 # English
 
@@ -48,4 +48,4 @@ Demo: [https://vrchat.com/home/world/wrld_e47376a2-3fba-484d-b08f-3719aa18b18c](
 
 ## License
 
-The code is distributed under the [MIT License](./LICENSE), as long as you mark the attribution of this plugin, you can use it freely in your proprietary projects.
+The code is distributed under the [MIT License](./LICENSE), as long as you indicate the attribution of the plugin, you can use it freely in your proprietary projects.
