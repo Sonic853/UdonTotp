@@ -16,7 +16,7 @@ Demo：[https://vrchat.com/home/world/wrld_e47376a2-3fba-484d-b08f-3719aa18b18c]
 ## 如何使用？
 
 1. 安装 [release](https://github.com/Sonic853/UdonTotp/releases/latest) 里最新的 unitypackage
-2. 安装插件后，使用 [TotpGen插件](https://853lab.booth.pm/items/4141499) 或免费的 [totp-wasm](https://totp-wasm.vercel.app/) （来自[GizmoOAO](https://github.com/GizmoOAO)） 生成密钥
+2. 安装插件后，使用 [TotpGen插件](https://853lab.booth.pm/items/4141499) 或免费的 [totp-wasm](https://totp-wasm.vercel.app/) （来自[Gizmo](https://github.com/GizmoOAO)） 生成密钥
 3. 将示例“TotpKeypad”放入世界
 4. 为“TotpKeypad”里的“TOTP”脚本配置编译后密钥（secret）、时间间隔、验证码位数、容错倍数
 5. 全部完成！
@@ -41,7 +41,7 @@ Demo: [https://vrchat.com/home/world/wrld_e47376a2-3fba-484d-b08f-3719aa18b18c](
 ## How to use ?
 
 1. Install the latest unitypackage in [release](https://github.com/Sonic853/UdonTotp/releases/latest).
-2. After installing the plugin, generate a secret key using [TotpGen plugin](https://853lab.booth.pm/items/4141499) or free [totp-wasm](https://totp-wasm.vercel.app/) (from [GizmoOAO](https://github.com/GizmoOAO)).
+2. After installing the plugin, generate a secret key using [TotpGen plugin](https://853lab.booth.pm/items/4141499) or free [totp-wasm](https://totp-wasm.vercel.app/) (from [Gizmo](https://github.com/GizmoOAO)).
 3. Place the example "TotpKeypad" in the Scene.
 4. Configure the secret, period, digits, and tolerance for the "TOTP" script in "TotpKeypad".
 5. All done!
