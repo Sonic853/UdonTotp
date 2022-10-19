@@ -176,19 +176,7 @@ namespace Sonic853.Udon.UdonKeypad
                         _passcode += buttonValue;
                         if (_autoEnter && Totp.digits == _passcode.Length)
                         {
-                            if (CheckPasscode())
-                            {
-                                Unlock();
-                                return "Unlocked";
-                            }
-                            else
-                            {
-                                if (!_isLocked)
-                                {
-                                    return "Unlocked";
-                                }
-                                return "Incorrect";
-                            }
+                            return ButtonPush("Enter");
                         }
                         return _passcode;
                     }
@@ -209,53 +197,17 @@ namespace Sonic853.Udon.UdonKeypad
                 return false;
             }
         }
-        public string ButtonPush1()
-        {
-            return ButtonPush("1");
-        }
-        public string ButtonPush2()
-        {
-            return ButtonPush("2");
-        }
-        public string ButtonPush3()
-        {
-            return ButtonPush("3");
-        }
-        public string ButtonPush4()
-        {
-            return ButtonPush("4");
-        }
-        public string ButtonPush5()
-        {
-            return ButtonPush("5");
-        }
-        public string ButtonPush6()
-        {
-            return ButtonPush("6");
-        }
-        public string ButtonPush7()
-        {
-            return ButtonPush("7");
-        }
-        public string ButtonPush8()
-        {
-            return ButtonPush("8");
-        }
-        public string ButtonPush9()
-        {
-            return ButtonPush("9");
-        }
-        public string ButtonPush0()
-        {
-            return ButtonPush("0");
-        }
-        public string ButtonPushEnter()
-        {
-            return ButtonPush("Enter");
-        }
-        public string ButtonPushClear()
-        {
-            return ButtonPush("Clear");
-        }
+        public string ButtonPush1() => ButtonPush("1");
+        public string ButtonPush2() => ButtonPush("2");
+        public string ButtonPush3() => ButtonPush("3");
+        public string ButtonPush4() => ButtonPush("4");
+        public string ButtonPush5() => ButtonPush("5");
+        public string ButtonPush6() => ButtonPush("6");
+        public string ButtonPush7() => ButtonPush("7");
+        public string ButtonPush8() => ButtonPush("8");
+        public string ButtonPush9() => ButtonPush("9");
+        public string ButtonPush0() => ButtonPush("0");
+        public string ButtonPushEnter() => ButtonPush("Enter");
+        public string ButtonPushClear() => ButtonPush("Clear");
     }
 }
