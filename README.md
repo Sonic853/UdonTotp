@@ -25,6 +25,10 @@ Demo：[https://vrchat.com/home/world/wrld_e47376a2-3fba-484d-b08f-3719aa18b18c]
 
 代码在 [MIT 许可](./LICENSE) 下分发，只要您注明了该插件的著名，您就可以在您的专有项目中随意使用它。
 
+## 此代码引用以下存储库:
+
+Gorialis - Udon-HashLib https://github.com/Gorialis/vrchat-udon-hashlib
+
 # English
 
 Time-based One-time Password algorithm (TOTP) Compatible with VRChat UdonSharp.
@@ -49,3 +53,7 @@ Demo: [https://vrchat.com/home/world/wrld_e47376a2-3fba-484d-b08f-3719aa18b18c](
 ## License
 
 The code is distributed under the [MIT License](./LICENSE), as long as you indicate the attribution of the plugin, you can use it freely in your proprietary projects.
+
+## This code references the following repositories:
+
+Gorialis - Udon-HashLib https://github.com/Gorialis/vrchat-udon-hashlib
