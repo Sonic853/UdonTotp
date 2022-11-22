@@ -35,7 +35,6 @@ namespace Sonic853.Udon.UdonKeypad
     public class TotpKeypad : UdonSharpBehaviour
     {
         [SerializeField] private TOTP Totp;
-        [HideInInspector]
         public string _passcode
         {
             get
