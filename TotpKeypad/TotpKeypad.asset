@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c333ccfdd0cbdbc4ca30cef2dd6e6b9b, type: 3}
   m_Name: TotpKeypad
   m_EditorClassIdentifier: 
-  serializedUdonProgramAsset: {fileID: 11400000, guid: 574fff64789d97942acfd84760c93417,
+  serializedUdonProgramAsset: {fileID: 11400000, guid: f3f2c50d3e7ae0448b62aae949c63a0a,
     type: 2}
   udonAssembly: 
   assemblyError: 

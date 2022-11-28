@@ -23,7 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 */
-
+using System;
 using UdonSharp;
 using UnityEngine;
 using UnityEngine.UI;
@@ -58,6 +58,9 @@ namespace Sonic853.Udon.UdonKeypad
         [SerializeField] public GameObject[] _lockHiedObjects;
         [Header("锁定时显示的物体")]
         [SerializeField] public GameObject[] _lockShowObjects;
+        [Header("是否打乱按钮顺序")]
+        [SerializeField] public bool _isRandomButton = false;
+        [NonSerialized] private GameObject[] Buttons;
         void Start()
         {
             if (Placeholder == null)
@@ -84,6 +87,22 @@ namespace Sonic853.Udon.UdonKeypad
             {
                 Debug.LogError("Keypad: _lockShowObjects is not set!");
             }
+            // 寻找名为 KeypadButtons 的 GameObject
+            var KeypadButtons = gameObject.transform.Find("KeypadButtons");
+            if (KeypadButtons == null)
+            {
+                Debug.LogError("Keypad: KeypadButtons is not set!");
+            }
+            else
+            {
+                // 获取 KeypadButtons 下的所有子物体
+                Buttons = new GameObject[KeypadButtons.childCount];
+                for (int i = 0; i < KeypadButtons.childCount; i++)
+                {
+                    Buttons[i] = KeypadButtons.GetChild(i).gameObject;
+                }
+            }
+            RandomButton();
 
             if (_isLocked)
             {
@@ -183,6 +202,7 @@ namespace Sonic853.Udon.UdonKeypad
         }
         bool CheckPasscode()
         {
+            RandomButton();
             if (Totp.VerifyTotp(_passcode))
             {
                 Placeholder.text = "Unlocked";
@@ -194,6 +214,29 @@ namespace Sonic853.Udon.UdonKeypad
                 Placeholder.text = "Incorrect";
                 _passcode = "";
                 return false;
+            }
+        }
+        public void RandomButton()
+        {
+            if (!_isRandomButton)
+                return;
+            if (Buttons.Length <= 0)
+            {
+                Debug.LogError("Keypad: Buttons is not set!");
+                return;
+            }
+            // 打乱按钮顺序
+            for (int i = 0; i < Buttons.Length; i++)
+            {
+                var temp = Buttons[i];
+                var randomIndex = UnityEngine.Random.Range(i, Buttons.Length);
+                Buttons[i] = Buttons[randomIndex];
+                Buttons[randomIndex] = temp;
+            }
+            // 重新设置按钮顺序
+            for (int i = 0; i < Buttons.Length; i++)
+            {
+                Buttons[i].transform.SetSiblingIndex(i);
             }
         }
         public string ButtonPush1() => ButtonPush("1");
