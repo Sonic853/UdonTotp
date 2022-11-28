@@ -60,7 +60,11 @@ namespace Sonic853.Udon.UdonKeypad
         [SerializeField] public GameObject[] _lockShowObjects;
         [Header("是否打乱按钮顺序")]
         [SerializeField] public bool _isRandomButton = false;
-        [NonSerialized] private GameObject[] Buttons;
+        [NonSerialized] private GameObject[] Buttons = new GameObject[0];
+        [Header("启用玩家传送")]
+        [SerializeField] public bool _enableTeleport = false;
+        [Header("传送点")]
+        [SerializeField] public Transform _teleportPoint;
         void Start()
         {
             if (Placeholder == null)
@@ -145,6 +149,7 @@ namespace Sonic853.Udon.UdonKeypad
             _isLocked = false;
             Placeholder.text = "Unlocked";
             _passcode = "";
+            GoTeleport();
             foreach (var obj in _lockHiedObjects)
             {
                 obj.SetActive(true);
@@ -154,6 +159,13 @@ namespace Sonic853.Udon.UdonKeypad
                 obj.SetActive(false);
             }
             return true;
+        }
+        public void GoTeleport()
+        {
+            if (_enableTeleport && _teleportPoint != null)
+            {
+                Networking.LocalPlayer.TeleportTo(_teleportPoint.position, _teleportPoint.rotation);
+            }
         }
         public string ButtonPush(string buttonValue)
         {
@@ -189,6 +201,8 @@ namespace Sonic853.Udon.UdonKeypad
                     {
                         if (!_isLocked)
                         {
+                            if (_enableTeleport)
+                                GoTeleport();
                             return "Unlocked";
                         }
                         _passcode += buttonValue;
