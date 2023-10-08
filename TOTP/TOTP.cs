@@ -85,7 +85,7 @@ namespace Sonic853.Udon
                     {
                         hmacComputedHash = _hashLib_Hmac.HMAC_SHA1(
                             GetBigEndianBytes(counter),
-                            GetUTF8Bytes(Base32Decode(secret))
+                            Base32DecodeByte(secret)
                         );
                     }
                     break;
@@ -93,7 +93,7 @@ namespace Sonic853.Udon
                     {
                         hmacComputedHash = _hashLib_Hmac.HMAC_SHA256(
                             GetBigEndianBytes(counter),
-                            GetUTF8Bytes(Base32Decode(secret))
+                            Base32DecodeByte(secret)
                         );
                     }
                     break;
@@ -101,7 +101,7 @@ namespace Sonic853.Udon
                     {
                         hmacComputedHash = _hashLib_Hmac.HMAC_SHA512(
                             GetBigEndianBytes(counter),
-                            GetUTF8Bytes(Base32Decode(secret))
+                            Base32DecodeByte(secret)
                         );
                     }
                     break;
@@ -208,6 +208,34 @@ namespace Sonic853.Udon
                 }
             }
             return binary;
+        }
+        byte[] Base32DecodeByte(string input)
+        {
+            input = input.ToUpper();
+            int unpadded_data_length = input.Length;
+            for (int i = 1; i < (Math.Min(6, input.Length)) + 1; i++)
+            {
+                if (input[input.Length - i] != '=') break;
+                unpadded_data_length -= 1;
+            }
+
+            int output_length = unpadded_data_length * 5 / 8;
+            byte[] _output = new byte[output_length];
+            char[] bytes = input.ToCharArray();
+            int index = 0;
+            for (int bitIndex = 0; bitIndex < input.Length * 5; bitIndex += 8)
+            {
+                int dualbyte = base_32_chars.IndexOf(bytes[bitIndex / 5]) << 10;
+                if (bitIndex / 5 + 1 < bytes.Length)
+                    dualbyte |= base_32_chars.IndexOf(bytes[bitIndex / 5 + 1]) << 5;
+                if (bitIndex / 5 + 2 < bytes.Length)
+                    dualbyte |= base_32_chars.IndexOf(bytes[bitIndex / 5 + 2]);
+                dualbyte = 0xff & (dualbyte >> (15 - bitIndex % 5 - 8));
+                _output[index] = (byte)(dualbyte);
+                index++;
+            }
+
+            return _output;
         }
     }
 }
