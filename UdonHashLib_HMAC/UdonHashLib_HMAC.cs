@@ -430,6 +430,12 @@ namespace Sonic853.Udon
             {
                 key = SHA256(key);
             }
+            else if (key.Length < 64)
+            {
+                byte[] newKey = new byte[64];
+                key.CopyTo(newKey, 0);
+                key = newKey;
+            }
 
             byte[] ipad = new byte[64];
             byte[] opad = new byte[64];
@@ -469,6 +475,12 @@ namespace Sonic853.Udon
             if (key.Length > 128)
             {
                 key = SHA512(key);
+            }
+            else if (key.Length < 128)
+            {
+                byte[] newKey = new byte[128];
+                key.CopyTo(newKey, 0);
+                key = newKey;
             }
             byte[] ipad = new byte[128];
             byte[] opad = new byte[128];
