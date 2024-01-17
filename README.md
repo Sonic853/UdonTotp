@@ -60,10 +60,6 @@ Demo: [https://vrchat.com/home/world/wrld_e47376a2-3fba-484d-b08f-3719aa18b18c](
 4. Configure the secret, period, digits, and tolerance for the "TOTP" script in "TotpKeypad".
 5. All done!
 
-## License
-
-The code is distributed under the [MIT License](./LICENSE), as long as you indicate the attribution of the plugin, you can use it freely in your proprietary projects.
-
 ## This code references the following repositories:
 
 Gorialis - Udon-HashLib https://github.com/Gorialis/vrchat-udon-hashlib
