@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c333ccfdd0cbdbc4ca30cef2dd6e6b9b, type: 3}
   m_Name: TOTP
   m_EditorClassIdentifier: 
-  serializedUdonProgramAsset: {fileID: 11400000, guid: d1df79f256cc46d439f110f7f966c6dd,
-    type: 2}
+  serializedUdonProgramAsset: {fileID: 11400000, guid: 1658577ae8e4edc4d9ad0422fec1a9f7, type: 2}
   udonAssembly: 
   assemblyError: 
   sourceCsScript: {fileID: 11500000, guid: bd6de3ac65527a74dac8aea821ddd675, type: 3}
@@ -62,7 +61,7 @@ MonoBehaviour:
       Data: 3|System.RuntimeType, mscorlib
     - Name: 
       Entry: 1
-      Data: Sonic853.Udon.UdonHashLib_HMAC, Assembly-CSharp
+      Data: Sonic853.Udon.UdonHashLib_HMAC, Sonic853.Udon.Totp
     - Name: 
       Entry: 8
       Data: 
