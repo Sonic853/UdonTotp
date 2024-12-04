@@ -1,0 +1,123 @@
+name: Check and Publish Version
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  publish:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Bump version
+        id: read_version
+        run: |
+          git fetch --prune --unshallow
+          last_tag=$(git describe --tags --abbrev=0 HEAD~|| echo "0.0.0")
+          current_version=$(npm pkg get version --workspaces=false | tr -d \")
+          name=$(npm pkg get name --workspaces=false | tr -d \")
+          echo "Latest Tag: $last_tag"
+          echo "Current Version: $current_version"
+          echo "last_tag=$last_tag" >> $GITHUB_OUTPUT
+          echo "current_version=$current_version" >> $GITHUB_OUTPUT
+          echo "name=$name" >> $GITHUB_OUTPUT
+
+      - name: Checkout repository to Packages
+        uses: actions/checkout@v4
+        with:
+          path: Packages/${{ steps.read_version.outputs.name }}
+
+      - name: Create Tag
+        if: steps.read_version.outputs.last_tag != steps.read_version.outputs.current_version
+        uses: rickstaa/action-create-tag@v1
+        with:
+          tag: "${{ steps.read_version.outputs.current_version }}"
+
+      - name: Create ZIP archive
+        if: steps.read_version.outputs.last_tag != steps.read_version.outputs.current_version
+        run: |
+          zip -r ${{ steps.read_version.outputs.name }}-${{ steps.read_version.outputs.current_version }}.zip . -x ".git*" ".github*" "Packages*"
+
+      - name: Read zip sha256
+        id: zip
+        if: steps.read_version.outputs.last_tag != steps.read_version.outputs.current_version
+        run: echo "hash=$(shasum -a 256 ${{ steps.read_version.outputs.name }}-${{ steps.read_version.outputs.current_version }}.zip | awk '{ print $1 }')" >> $GITHUB_OUTPUT
+
+      - name: Track Package Meta Files
+        if: steps.read_version.outputs.last_tag != steps.read_version.outputs.current_version
+        run: find "Packages/${{ steps.read_version.outputs.name }}" -name \*.meta >> metaList
+
+      - name: Create UnityPackage
+        if: steps.read_version.outputs.last_tag != steps.read_version.outputs.current_version
+        uses: pCYSl5EDgo/create-unitypackage@master
+        with:
+          package-path: ${{ steps.read_version.outputs.name }}-${{ steps.read_version.outputs.current_version }}.unitypackage
+          include-files: metaList
+
+      - name: Release
+        if: steps.read_version.outputs.last_tag != steps.read_version.outputs.current_version
+        uses: softprops/action-gh-release@v2
+        with:
+          body: |
+            ### **Full Changelog**: https://github.com/${{ github.repository }}/compare/${{ steps.read_version.outputs.last_tag }}...${{ steps.read_version.outputs.current_version }}
+
+            # Installation method (VCC):
+            Click the "Add Repository" button under Settings → Packages and enter the following URL:
+
+            https://page.853lab.com/vpm-repos/vpm.json
+
+            Then add the "${{ github.event.repository.name }}" package to the project.
+
+            # 安装方法（VCC）：
+            在 Settings → Packages 下点击“Add Repository”按钮后输入以下URL：
+
+            https://page.853lab.com/vpm-repos/vpm.json
+
+            随后在项目添加“${{ github.event.repository.name }}”包。
+
+            ## License restrictions 许可限制
+
+            Individuals or companies in Chinese Mainland (except Hong Kong China, Macau China, and Taiwan Province of China) are prohibited from using this LGPL license and using this repository and products if the following circumstances apply:
+            
+            1. The map/world is not created in an individual capacity
+            2. The map/world involves more than two participants in its creation (not including two participants)
+            3. Any individual user or company explicitly prohibited by Sonic853
+
+            中国大陆地区（中国香港、中国澳门和中国台湾除外）的个人或公司如含有以下任一情况禁止使用该 LGPL 许可并禁止使用此储存库以及商品（包括此储存库以及商品的任一文件）：
+
+            1. 不以个人名义创建的地图/世界
+            2. 地图/世界参与制作人数超过 2 人以上（不含 2 人）
+            3. 由 Sonic853 明确禁止的个人用户、公司
+
+            If you wish to obtain authorization to use this repository and its products, please contact the author Sonic853 (sonic853@qq.com) or manually acquire authorization via [爱发电](https://afdian.com/a/Sonic853).
+
+            如需获得使用此储存库以及商品的授权，请联系作者 Sonic853 (sonic853@qq.com) 获取授权或访问 [爱发电](https://afdian.com/a/Sonic853) 手动获取授权。
+          tag_name: ${{ steps.read_version.outputs.current_version }}
+          files: |
+            ${{ steps.read_version.outputs.name }}-${{ steps.read_version.outputs.current_version }}.zip
+            ${{ steps.read_version.outputs.name }}-${{ steps.read_version.outputs.current_version }}.unitypackage
+
+      - name: Dispatch version to vpm-repos
+        if: github.event.repository.private == false && steps.read_version.outputs.last_tag != steps.read_version.outputs.current_version
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.PAT }}
+          repository: Sonic853/vpm-repos
+          event-type: publish-vpm
+          client-payload: '{"repository": "${{ github.repository }}", "path": "${{ github.event.repository.name }}", "name": "${{ steps.read_version.outputs.name }}", "version": "${{ steps.read_version.outputs.current_version }}", "hash": "${{ steps.zip.outputs.hash }}"}'
