@@ -35,7 +35,6 @@ namespace Sonic853.Udon
 {
     public class TOTP : UdonSharpBehaviour
     {
-        [SerializeField] private UdonHashLib_HMAC _hashLib_Hmac;
         private string base_32_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
         private string[] Base32Chars = new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "2", "3", "4", "5", "6", "7" };
         [Header("编译后密钥")]
@@ -83,7 +82,7 @@ namespace Sonic853.Udon
             {
                 case 0:
                     {
-                        hmacComputedHash = _hashLib_Hmac.HMAC_SHA1(
+                        hmacComputedHash = UdonHashLib_HMAC.HMAC_SHA1(
                             GetBigEndianBytes(counter),
                             Base32DecodeByte(secret)
                         );
@@ -91,7 +90,7 @@ namespace Sonic853.Udon
                     break;
                 case 1:
                     {
-                        hmacComputedHash = _hashLib_Hmac.HMAC_SHA256(
+                        hmacComputedHash = UdonHashLib_HMAC.HMAC_SHA256(
                             GetBigEndianBytes(counter),
                             Base32DecodeByte(secret)
                         );
@@ -99,7 +98,7 @@ namespace Sonic853.Udon
                     break;
                 case 2:
                     {
-                        hmacComputedHash = _hashLib_Hmac.HMAC_SHA512(
+                        hmacComputedHash = UdonHashLib_HMAC.HMAC_SHA512(
                             GetBigEndianBytes(counter),
                             Base32DecodeByte(secret)
                         );

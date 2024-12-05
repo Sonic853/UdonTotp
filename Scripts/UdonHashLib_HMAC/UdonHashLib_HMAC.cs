@@ -35,7 +35,7 @@ namespace Sonic853.Udon
 {
     public class UdonHashLib_HMAC : UdonSharpBehaviour
     {
-        byte[] GetUTF8Bytes(string input)
+        static byte[] GetUTF8Bytes(string input)
         {
             char[] characters = input.ToCharArray();
             byte[] buffer = new byte[characters.Length * 4];
@@ -78,7 +78,7 @@ namespace Sonic853.Udon
 
             return output;
         }
-        public string BytesToString(byte[] bytes)
+        public static string BytesToString(byte[] bytes)
         {
             string output = "";
             foreach (var item in bytes)
@@ -87,13 +87,13 @@ namespace Sonic853.Udon
             }
             return output;
         }
-        private readonly ulong[] sha1_init = {
+        private static ulong[] sha1_init() => new ulong[]{
             0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476, 0xc3d2e1f0,
         };
-        public byte[] SHA1(byte[] data)
+        public static byte[] SHA1(byte[] data)
         {
             ulong[] working_variables = new ulong[5];
-            sha1_init.CopyTo(working_variables, 0);
+            sha1_init().CopyTo(working_variables, 0);
             ulong size_mask = 0xFFFFFFFFul;
             int word_size = 32;
             int chunk_modulo = 64;
@@ -211,7 +211,7 @@ namespace Sonic853.Udon
             }
             return output;
         }
-        public byte[] HMAC_SHA1(byte[] data, byte[] key)
+        public static byte[] HMAC_SHA1(byte[] data, byte[] key)
         {
             if (key.Length > 64)
             {
@@ -253,10 +253,10 @@ namespace Sonic853.Udon
 
             return SHA1(outer);
         }
-        private readonly ulong[] sha256_init = {
+        private static ulong[] sha256_init() => new ulong[]{
             0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19,
         };
-        private readonly ulong[] sha256_constants = {
+        private static ulong[] sha256_constants() => new ulong[]{
             0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
             0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
             0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
@@ -266,23 +266,23 @@ namespace Sonic853.Udon
             0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
             0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2,
         };
-        private readonly int[] sha256_sums =
+        private static int[] sha256_sums() => new int[]
         {
             7, 18, 3,  // s0
             17, 19, 10,  // s1
         };
 
-        private readonly int[] sha256_sigmas =
+        private static int[] sha256_sigmas() => new int[]
         {
             2, 13, 22,  // S0
             6, 11, 25,  // S1
         };
-        private readonly ulong[] sha512_init = {
+        private static ulong[] sha512_init() => new ulong[]{
             0x6a09e667f3bcc908, 0xbb67ae8584caa73b, 0x3c6ef372fe94f82b, 0xa54ff53a5f1d36f1, 0x510e527fade682d1,
             0x9b05688c2b3e6c1f, 0x1f83d9abfb41bd6b, 0x5be0cd19137e2179,
         };
 
-        private readonly ulong[] sha512_constants = {
+        private static ulong[] sha512_constants() => new ulong[]{
             0x428a2f98d728ae22, 0x7137449123ef65cd, 0xb5c0fbcfec4d3b2f, 0xe9b5dba58189dbbc, 0x3956c25bf348b538,
             0x59f111f1b605d019, 0x923f82a4af194f9b, 0xab1c5ed5da6d8118, 0xd807aa98a3030242, 0x12835b0145706fbe,
             0x243185be4ee4b28c, 0x550c7dc3d5ffb4e2, 0x72be5d74f27b896f, 0x80deb1fe3b1696b1, 0x9bdc06a725c71235,
@@ -301,18 +301,18 @@ namespace Sonic853.Udon
             0x431d67c49c100d4c, 0x4cc5d4becb3e42b6, 0x597f299cfc657e2a, 0x5fcb6fab3ad6faec, 0x6c44198c4a475817,
         };
 
-        private readonly int[] sha512_sums =
+        private static int[] sha512_sums() => new int[]
         {
             1, 8, 7,  // s0
             19, 61, 6,  // s1
         };
 
-        private readonly int[] sha512_sigmas =
+        private static int[] sha512_sigmas() => new int[]
         {
             28, 34, 39,  // S0
             14, 18, 41,  // S1
         };
-        public byte[] SHA2_Core(byte[] payload_bytes, ulong[] init, ulong[] constants, int[] sums, int[] sigmas, ulong size_mask, int word_size, int chunk_modulo, int appended_length, int round_count, int output_segments)
+        public static byte[] SHA2_Core(byte[] payload_bytes, ulong[] init, ulong[] constants, int[] sums, int[] sigmas, ulong size_mask, int word_size, int chunk_modulo, int appended_length, int round_count, int output_segments)
         {
             int word_bytes = word_size / 8;
 
@@ -420,11 +420,11 @@ namespace Sonic853.Udon
             }
             return output;
         }
-        public byte[] SHA256(byte[] data)
+        public static byte[] SHA256(byte[] data)
         {
-            return SHA2_Core(data, sha256_init, sha256_constants, sha256_sums, sha256_sigmas, 0xFFFFFFFFul, 32, 64, 8, 64, 8);
+            return SHA2_Core(data, sha256_init(), sha256_constants(), sha256_sums(), sha256_sigmas(), 0xFFFFFFFFul, 32, 64, 8, 64, 8);
         }
-        public byte[] HMAC_SHA256(byte[] data, byte[] key)
+        public static byte[] HMAC_SHA256(byte[] data, byte[] key)
         {
             if (key.Length > 64)
             {
@@ -466,11 +466,11 @@ namespace Sonic853.Udon
 
             return SHA256(outer);
         }
-        public byte[] SHA512(byte[] data)
+        public static byte[] SHA512(byte[] data)
         {
-            return SHA2_Core(data, sha512_init, sha512_constants, sha512_sums, sha512_sigmas, 0xFFFFFFFFFFFFFFFFul, 64, 128, 16, 80, 8);
+            return SHA2_Core(data, sha512_init(), sha512_constants(), sha512_sums(), sha512_sigmas(), 0xFFFFFFFFFFFFFFFFul, 64, 128, 16, 80, 8);
         }
-        public byte[] HMAC_SHA512(byte[] data, byte[] key)
+        public static byte[] HMAC_SHA512(byte[] data, byte[] key)
         {
             if (key.Length > 128)
             {
@@ -496,7 +496,7 @@ namespace Sonic853.Udon
                 ipad[i] ^= key[i];
                 opad[i] ^= key[i];
             }
-            
+
             byte[] inner = new byte[ipad.Length + data.Length];
 
             ipad.CopyTo(inner, 0);
