@@ -69,6 +69,7 @@ namespace Sonic853.Udon
         /// 100ns ticks per second
         /// </summary>
         const long ticksToSeconds = 10000000L;
+        public void SetSecret(string _secret) => secret = _secret;
         public string ComputeTotp()
         {
             return ComputeTotpWithTime(Networking.GetNetworkDateTime().ToUniversalTime());
