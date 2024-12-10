@@ -1,6 +1,6 @@
 {
   "name": "com.sonic853.udon.totp",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "displayName": "Sonic853 - UdonTotp",
   "description": "Time-based One-time Password algorithm (TOTP) Compatible with VRChat UdonSharp.",
   "unity": "2022.3",
