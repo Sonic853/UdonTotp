@@ -70,6 +70,11 @@ jobs:
           package-path: ${{ steps.read_version.outputs.name }}-${{ steps.read_version.outputs.current_version }}.unitypackage
           include-files: metaList
 
+      - name: Create ZIP archive for UnityPackage
+        if: steps.read_version.outputs.last_tag != steps.read_version.outputs.current_version
+        run: |
+          zip -r ${{ steps.read_version.outputs.name }}-${{ steps.read_version.outputs.current_version }}.unitypackage.zip ${{ steps.read_version.outputs.name }}-${{ steps.read_version.outputs.current_version }}.unitypackage
+
       - name: Release
         if: steps.read_version.outputs.last_tag != steps.read_version.outputs.current_version
         uses: softprops/action-gh-release@v2
@@ -92,26 +97,28 @@ jobs:
             随后在项目添加“${{ github.event.repository.name }}”包。
 
             ## License restrictions 许可限制
+            详见[在线版](https://github.com/Sonic853/vpm-repos/wiki/License-restrictions-%E8%AE%B8%E5%8F%AF%E9%99%90%E5%88%B6)
 
-            Individuals or companies in Chinese Mainland (except Hong Kong China, Macau China, and Taiwan Province of China) are prohibited from using this LGPL license and using this repository and products if the following circumstances apply:
-            
-            1. The map/world is not created in an individual capacity
-            2. The map/world involves more than two participants in its creation (not including two participants)
-            3. Any individual user or company explicitly prohibited by Sonic853
-
-            中国大陆地区（中国香港、中国澳门和中国台湾除外）的个人或公司如含有以下任一情况禁止使用该 LGPL 许可并禁止使用此储存库以及商品（包括此储存库以及商品的任一文件）：
+            中国大陆地区（中国香港、中国澳门和中国台湾除外）的个人或公司如含有以下任一情况禁止使用该仓库许可以及商品许可并禁止使用此储存库以及商品（包括此储存库以及商品的任一文件）：
 
             1. 不以个人名义创建的地图/世界
             2. 地图/世界参与制作人数超过 2 人以上（不含 2 人）
             3. 由 Sonic853 明确禁止的个人用户、公司
 
-            If you wish to obtain authorization to use this repository and its products, please contact the author Sonic853 (sonic853@qq.com) or manually acquire authorization via [爱发电](https://afdian.com/a/Sonic853).
-
             如需获得使用此储存库以及商品的授权，请联系作者 Sonic853 (sonic853@qq.com) 获取授权或访问 [爱发电](https://afdian.com/a/Sonic853) 手动获取授权。
+
+            Individuals or companies in Chinese Mainland (except Hong Kong China, Macau China, and Taiwan Province of China) are prohibited from using this repository license and products license and using this repository and products if the following circumstances apply:
+            
+            1. The map/world is not created in an individual capacity
+            2. The map/world involves more than two participants in its creation (not including two participants)
+            3. Any individual user or company explicitly prohibited by Sonic853
+
+            If you wish to obtain authorization to use this repository and its products, please contact the author Sonic853 (sonic853@qq.com) or manually acquire authorization via [爱发电](https://afdian.com/a/Sonic853).
           tag_name: ${{ steps.read_version.outputs.current_version }}
           files: |
             ${{ steps.read_version.outputs.name }}-${{ steps.read_version.outputs.current_version }}.zip
             ${{ steps.read_version.outputs.name }}-${{ steps.read_version.outputs.current_version }}.unitypackage
+            ${{ steps.read_version.outputs.name }}-${{ steps.read_version.outputs.current_version }}.unitypackage.zip
 
       - name: Dispatch version to vpm-repos
         if: github.event.repository.private == false && steps.read_version.outputs.last_tag != steps.read_version.outputs.current_version
