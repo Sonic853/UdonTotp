@@ -215,7 +215,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 10
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!223 &115868507
 Canvas:
   m_ObjectHideFlags: 0
@@ -1035,6 +1035,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawns:
   - {fileID: 1483901318}
+  spawnRadius: 0
   spawnOrder: 2
   spawnOrientation: 0
   ReferenceCamera: {fileID: 0}
@@ -1750,6 +1751,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7823562511929770816, guid: cab9a800e4d9c9e4baf0a892fff921a3, type: 3}
     - target: {fileID: 7823562511929770816, guid: cab9a800e4d9c9e4baf0a892fff921a3, type: 3}
+      propertyPath: _lockHiedObjects.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7823562511929770816, guid: cab9a800e4d9c9e4baf0a892fff921a3, type: 3}
       propertyPath: _lockHiedObjects.Array.data[0]
       value: 
       objectReference: {fileID: 1398817769}
@@ -1768,6 +1773,10 @@ PrefabInstance:
     - target: {fileID: 7823562511929770875, guid: cab9a800e4d9c9e4baf0a892fff921a3, type: 3}
       propertyPath: m_Name
       value: TotpKeypad
+      objectReference: {fileID: 0}
+    - target: {fileID: 7823562511929770877, guid: cab9a800e4d9c9e4baf0a892fff921a3, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7823562511929770879, guid: cab9a800e4d9c9e4baf0a892fff921a3, type: 3}
       propertyPath: m_Pivot.x
